@@ -21,7 +21,7 @@ public class ${ClassName} {
 #foreach ($tableColumn in $tableColumns)
 
 // $tableColumn.columnComment
-private $tableColumn.javaType $tableColumn.columnName;
+private $tableColumn.javaType $tableColumn.javaColumnName;
 #end
 
 }
