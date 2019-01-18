@@ -1,6 +1,8 @@
 package ${packageName}.mapper.provider;
 
 import ${packageName}.entity.${ClassName};
+import org.apache.ibatis.annotations.*;
+import ${packageName}.mapper.provider.${ClassName}Provider;
 
 /**
  * @ClassName ${ClassName}Provider
@@ -11,13 +13,13 @@ import ${packageName}.entity.${ClassName};
  **/
 public class ${ClassName}Provider {
     public String update${ClassName}(${ClassName} ${className}){
-        StringBuilder stringBuilder=new StringBuilder("update ${className} set");
+        StringBuilder stringBuilder=new StringBuilder("update ${className} set ");
         #foreach($tableColumn in $tableColumns)
         #if ($tableColumn.columnKey!="PRI")
 
-        if(${className}.$tableColumn.javaColumnName!=null){
+        if(${className}.$tableColumn.methodName!=null){
             stringBuilder.append("$tableColumn.columnName='");
-            stringBuilder.append(${className}.$tableColumn.javaColumnName);
+            stringBuilder.append(${className}.$tableColumn.methodName);
             stringBuilder.append("'");
             #if($foreach.hasNext)
 
@@ -28,8 +30,8 @@ public class ${ClassName}Provider {
         #end
         #end
 
-        stringBuilder.append("where $pk='");
-        stringBuilder.append(${className}.$javaPk);
+        stringBuilder.append(" where $pk='");
+        stringBuilder.append(${className}.$pkMethodName);
         stringBuilder.append("'");
 
         return stringBuilder.toString();

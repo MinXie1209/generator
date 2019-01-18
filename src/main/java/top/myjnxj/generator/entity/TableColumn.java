@@ -24,6 +24,10 @@ public class TableColumn {
      */
     private String javaColumnName;
     /**
+     * get方法
+     */
+    private String methodName;
+    /**
      * 数据库的列类型
      */
     private String dataType;

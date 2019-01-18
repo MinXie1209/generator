@@ -2,6 +2,7 @@ package top.myjnxj.generator.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.velocity.Template;
@@ -69,15 +70,20 @@ public class GeneratorUtils {
             getAttributes(attributes, templateAttribute);
 
             VelocityContext context = new VelocityContext(attributes);
+
             for (TableColumn tableColumn : table.getTableColumns()) {
                 tableColumn.setJavaColumnName(tableColumnToJavaAttribute(tableColumn.getColumnName()));
+                tableColumn.setMethodName(tableColumnToMethodName(tableColumn.getColumnName()));
                 if ("PRI".equals(tableColumn.getColumnKey())){
                     table.setPk(tableColumn.getColumnName());
+                    table.setJavaPk(tableColumnToJavaAttribute(table.getPk()));
+                    table.setPkMethodName(tableColumnToMethodName(tableColumn.getColumnName()));
                 }
             }
             context.put("tableColumns", table.getTableColumns());
             context.put("pk",table.getPk());
-            context.put("javaPk",tableColumnToJavaAttribute(table.getPk()));
+            context.put("javaPk",table.getJavaPk());
+            context.put("pkMethodName",table.getPkMethodName());
             if (templates != null && !templates.isEmpty()) {
                 for (String templateStr : templates) {
 
@@ -119,6 +125,12 @@ public class GeneratorUtils {
         IOUtils.closeQuietly(outputStream);
         return result;
 
+    }
+
+    private static String tableColumnToMethodName(String javaColumnName) {
+        StringBuilder stringBuilder=new StringBuilder("get");
+        stringBuilder.append(tableNameToClassName(javaColumnName));
+        return stringBuilder.append("()").toString();
     }
 
     /**
@@ -228,7 +240,11 @@ public class GeneratorUtils {
      * @return
      */
     private static String tableNameToClassName(String tableName) {
-        return WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
+        if (StringUtils.isNotBlank(tableName)){
+            return WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
+        }
+        return tableName;
+
     }
 
     /**
@@ -251,7 +267,8 @@ public class GeneratorUtils {
     }
 
     public static void main(String[] args) {
-        log.info("{}", getFileName("com.java.demo", "Account", "ServiceImpl.java.vm"));
+       // log.info("{}", getFileName("com.java.demo", "Account", "ServiceImpl.java.vm"));
+        log.info("{}", tableNameToClassName("account_id"));
     }
 
     /**

@@ -22,6 +22,7 @@ public class Table {
     private List<TableColumn> tableColumns;
     private String pk;
     private String javaPk;
+    private String pkMethodName;
     public Table(String tableName){
         this.tableName=tableName;
     }
