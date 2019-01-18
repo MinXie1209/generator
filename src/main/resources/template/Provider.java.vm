@@ -1,0 +1,37 @@
+package ${packageName}.mapper.provider;
+
+import ${packageName}.entity.${ClassName};
+
+/**
+ * @ClassName ${ClassName}Provider
+ * @Description TODO
+ * @Author 江神
+ * @Date ${now}
+ * @Version 1.0
+ **/
+public class ${ClassName}Provider {
+    public String update${ClassName}(${ClassName} ${className}){
+        StringBuilder stringBuilder=new StringBuilder("update ${className} set");
+        #foreach($tableColumn in $tableColumns)
+        #if ($tableColumn.columnKey!="PRI")
+
+        if(${className}.$tableColumn.javaColumnName!=null){
+            stringBuilder.append("$tableColumn.columnName='");
+            stringBuilder.append(${className}.$tableColumn.javaColumnName);
+            stringBuilder.append("'");
+            #if($foreach.hasNext)
+
+            stringBuilder.append(",");
+            #end
+
+        }
+        #end
+        #end
+
+        stringBuilder.append("where $pk='");
+        stringBuilder.append(${className}.$javaPk);
+        stringBuilder.append("'");
+
+        return stringBuilder.toString();
+    }
+}
