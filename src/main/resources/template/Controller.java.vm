@@ -25,20 +25,35 @@ public class ${ClassName}Controller {
 
     @ApiOperation(value = "添加${ClassName}")
     @PostMapping(value = "/${className}")
-    @ResponseHeader(name = "wtf")
-    public void add${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
+    public Object add${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
         log.info("{}","add${ClassName}");
-        ${className}Service.add${ClassName}(${className});
+        return ${className}Service.add${ClassName}(${className});
 
     }
     @ApiOperation(value = "修改${ClassName}")
     @PutMapping(value = "/${className}")
-    @ResponseHeader(name = "wtf")
-    public void update${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
+    public Object update${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
         log.info("{}","update${ClassName}");
-        ${className}Service.update${ClassName}(${className});
+        return ${className}Service.update${ClassName}(${className});
 
     }
-
+    @ApiOperation(value = "删除${ClassName}")
+    @DeleteMapping(value = "/${className}/{id}")
+    public Object delete${ClassName}ById(@ApiParam("id") @PathVariable("id") Integer id) {
+        log.info("{}","delete${ClassName}ById");
+        return ${className}Service.delete${ClassName}ById(id);
+    }
+    @ApiOperation(value = "通过id获取${ClassName}")
+    @GetMapping(value = "/${className}/{id}")
+    public Object get${ClassName}ById(@ApiParam("id") @PathVariable("id") Integer id) {
+        log.info("{}","get${ClassName}ById");
+        return ${className}Service.get${ClassName}ById(id);
+    }
+    @ApiOperation(value = "获取所有${ClassName}")
+    @GetMapping(value = "/${className}")
+    public Object list${ClassName}() {
+        log.info("{}","list${ClassName}");
+        return ${className}Service.list${ClassName}();
+    }
 }
 

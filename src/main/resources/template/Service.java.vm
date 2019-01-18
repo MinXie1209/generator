@@ -2,6 +2,7 @@ package ${packageName}.service;
 
 import ${packageName}.entity.${ClassName};
 
+import java.util.List;
 /**
  * @InterfaceName ${ClassName}Service
  * @Description TODO
@@ -12,4 +13,12 @@ import ${packageName}.entity.${ClassName};
 public interface ${ClassName}Service {
 
     Integer add${ClassName}(${ClassName} ${className});
+
+    Integer update${ClassName}(${ClassName} ${className});
+
+    Integer delete${ClassName}ById(Integer id);
+
+    ${ClassName} get${ClassName}ById(Integer id);
+
+    List<${ClassName}> list${ClassName}();
 }

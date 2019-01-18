@@ -9,7 +9,7 @@
 > 1.0版本要实现的功能有
   
   1. addTable(Table table)
-  2. updateTableById(Integer tableId)
+  2. updateTableById(Table table)
   3. deleteTableById(Integer tableId)
   4. getTableById()
   5. listTable()

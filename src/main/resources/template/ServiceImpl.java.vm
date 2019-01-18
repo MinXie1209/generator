@@ -8,7 +8,6 @@ import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.entity.${ClassName};
 
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,6 +25,22 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service {
     @Override
     public Integer add${ClassName}(${ClassName} ${className}){
         return ${className}Mapper.add${ClassName}(${className});
+    }
+    @Override
+    public Integer update${ClassName}(${ClassName} ${className}){
+        return ${className}Mapper.update${ClassName}(${className});
+    }
+    @Override
+    public Integer delete${ClassName}ById(Integer id){
+        return ${className}Mapper.delete${ClassName}ById(id);
+    }
+    @Override
+    public ${ClassName} get${ClassName}ById(Integer id){
+        return ${className}Mapper.get${ClassName}ById(id);
+    }
+    @Override
+    public List<${ClassName}> list${ClassName}(){
+        return ${className}Mapper.list${ClassName}();
     }
 
 

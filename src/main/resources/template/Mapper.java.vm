@@ -16,5 +16,15 @@ import java.util.List;
  **/
 @Mapper
 public interface ${ClassName}Mapper {
+
     Integer add${ClassName}(@Param("${className}")${ClassName} ${className});
+
+    Integer update${ClassName}(@Param("${className}")${ClassName} ${className});
+
+    Integer delete${ClassName}ById(@Param("id")Integer id);
+
+    ${ClassName} get${ClassName}ById(@Param("id")Integer id);
+
+    List<${ClassName}> list${ClassName}();
+
 }
