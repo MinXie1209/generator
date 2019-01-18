@@ -20,6 +20,10 @@ public class TableColumn {
      */
     private String columnName;
     /**
+     * Java成员变量名
+     */
+    private String javaColumnName;
+    /**
      * 数据库的列类型
      */
     private String dataType;
@@ -35,7 +39,6 @@ public class TableColumn {
      * java类型
      */
     private String javaType;
-
     public TableColumn(String columnName,String dataType,String columnComment,String columnKey){
         this.columnName=columnName;
         this.dataType=dataType;

@@ -20,6 +20,8 @@ import java.util.List;
 public class Table {
     private String tableName;
     private List<TableColumn> tableColumns;
+    private String pk;
+    private String javaPk;
     public Table(String tableName){
         this.tableName=tableName;
     }

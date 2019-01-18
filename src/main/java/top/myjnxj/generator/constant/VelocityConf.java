@@ -41,7 +41,11 @@ public class VelocityConf {
 
     public static final String APPLICATION_VM = TEMPLATE+File.separator+"Application.java.vm";
     public static final String APPLICATION = "Application.java";
+
     public static final String BANNER_VM = TEMPLATE+File.separator+"banner.txt.vm";
     public static final String BANNER = "banner.txt";
 
+    public static final String PROVIDER_VM = TEMPLATE+File.separator+"Provider.java.vm";
+    public static final String CAP_PROVIDER = "Provider";
+    public static final String LOW_PROVIDER = "provider";
 }
