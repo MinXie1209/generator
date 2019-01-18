@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import top.myjnxj.generator.bo.Generator;
 import top.myjnxj.generator.conf.GeneratorConf;
 import top.myjnxj.generator.constant.VelocityConf;
+import top.myjnxj.generator.entity.PrimaryKey;
 import top.myjnxj.generator.entity.Table;
 import top.myjnxj.generator.entity.TableColumn;
 import top.myjnxj.generator.entity.TemplateAttribute;
@@ -70,20 +71,22 @@ public class GeneratorUtils {
             getAttributes(attributes, templateAttribute);
 
             VelocityContext context = new VelocityContext(attributes);
-
+            PrimaryKey primaryKey=null;
             for (TableColumn tableColumn : table.getTableColumns()) {
                 tableColumn.setJavaColumnName(tableColumnToJavaAttribute(tableColumn.getColumnName()));
                 tableColumn.setMethodName(tableColumnToMethodName(tableColumn.getColumnName()));
                 if ("PRI".equals(tableColumn.getColumnKey())){
-                    table.setPk(tableColumn.getColumnName());
+                    /*table.setPk(tableColumn.getColumnName());
                     table.setJavaPk(tableColumnToJavaAttribute(table.getPk()));
-                    table.setPkMethodName(tableColumnToMethodName(tableColumn.getColumnName()));
+                    table.setPkMethodName(tableColumnToMethodName(tableColumn.getColumnName()));*/
+                    primaryKey=new PrimaryKey(tableColumn.getColumnName(),tableColumnToJavaAttribute(tableColumn.getColumnName()),tableColumnToMethodName(tableColumn.getColumnName()),tableColumn.getJavaType());
                 }
             }
             context.put("tableColumns", table.getTableColumns());
-            context.put("pk",table.getPk());
+           /* context.put("pk",table.getPk());
             context.put("javaPk",table.getJavaPk());
-            context.put("pkMethodName",table.getPkMethodName());
+            context.put("pkMethodName",table.getPkMethodName());*/
+            context.put("primaryKey",primaryKey);
             if (templates != null && !templates.isEmpty()) {
                 for (String templateStr : templates) {
 

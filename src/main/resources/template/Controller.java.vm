@@ -39,13 +39,13 @@ public class ${ClassName}Controller {
     }
     @ApiOperation(value = "删除${ClassName}")
     @DeleteMapping(value = "/${className}/{id}")
-    public Object delete${ClassName}ById(@ApiParam("id") @PathVariable("id") Integer id) {
+    public Object delete${ClassName}ById(@ApiParam("id") @PathVariable("id") ${primaryKey.javaType} id) {
         log.info("{}","delete${ClassName}ById");
         return ${className}Service.delete${ClassName}ById(id);
     }
     @ApiOperation(value = "通过id获取${ClassName}")
     @GetMapping(value = "/${className}/{id}")
-    public Object get${ClassName}ById(@ApiParam("id") @PathVariable("id") Integer id) {
+    public Object get${ClassName}ById(@ApiParam("id") @PathVariable("id") ${primaryKey.javaType} id) {
         log.info("{}","get${ClassName}ById");
         return ${className}Service.get${ClassName}ById(id);
     }

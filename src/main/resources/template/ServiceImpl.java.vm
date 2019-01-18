@@ -31,11 +31,11 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service {
         return ${className}Mapper.update${ClassName}(${className});
     }
     @Override
-    public Integer delete${ClassName}ById(Integer id){
+    public Integer delete${ClassName}ById(${primaryKey.javaType} id){
         return ${className}Mapper.delete${ClassName}ById(id);
     }
     @Override
-    public ${ClassName} get${ClassName}ById(Integer id){
+    public ${ClassName} get${ClassName}ById(${primaryKey.javaType} id){
         return ${className}Mapper.get${ClassName}ById(id);
     }
     @Override

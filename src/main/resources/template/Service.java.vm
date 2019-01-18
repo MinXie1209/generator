@@ -16,9 +16,9 @@ public interface ${ClassName}Service {
 
     Integer update${ClassName}(${ClassName} ${className});
 
-    Integer delete${ClassName}ById(Integer id);
+    Integer delete${ClassName}ById(${primaryKey.javaType} id);
 
-    ${ClassName} get${ClassName}ById(Integer id);
+    ${ClassName} get${ClassName}ById(${primaryKey.javaType} id);
 
     List<${ClassName}> list${ClassName}();
 }

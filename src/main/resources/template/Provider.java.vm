@@ -1,8 +1,7 @@
 package ${packageName}.mapper.provider;
 
 import ${packageName}.entity.${ClassName};
-import org.apache.ibatis.annotations.*;
-import ${packageName}.mapper.provider.${ClassName}Provider;
+
 
 /**
  * @ClassName ${ClassName}Provider
@@ -30,10 +29,30 @@ public class ${ClassName}Provider {
         #end
         #end
 
-        stringBuilder.append(" where $pk='");
-        stringBuilder.append(${className}.$pkMethodName);
+        stringBuilder.append(" where ${primaryKey.pk}='");
+        stringBuilder.append(${className}.$primaryKey.pkMethodName);
         stringBuilder.append("'");
 
         return stringBuilder.toString();
+    }
+
+    public String delete${ClassName}ById(${primaryKey.javaType} id){//暂时设定主键为Integer,后封装一个主键类
+        StringBuilder stringBuilder=new StringBuilder("delete from  ${className} where ${primaryKey.pk}='");
+        stringBuilder.append(id);
+        stringBuilder.append("'");
+        return stringBuilder.toString();
+    }
+
+    public String get${ClassName}ById(${primaryKey.javaType} id){
+        StringBuilder stringBuilder=new StringBuilder("select * from  ${className} where ${primaryKey.pk}='");
+        stringBuilder.append(id);
+        stringBuilder.append("'");
+        return stringBuilder.toString();
+    }
+
+    public String list${ClassName}(){
+        StringBuilder stringBuilder=new StringBuilder("select * from  ${className}");
+        return stringBuilder.toString();
+
     }
 }
