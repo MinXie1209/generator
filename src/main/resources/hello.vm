@@ -1,0 +1,27 @@
+package ${packageName}.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
+/**
+ * @ClassName ${ClassName}
+ * @Description 封装数据表
+ * @Author 江神
+ * @Date ${now}
+ * @Version 1.0
+ **/
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ${ClassName} {
+#foreach ($tableColumn in $tableColumns)
+
+// $tableColumn.columnComment
+private $tableColumn.javaType $tableColumn.columnName;
+#end
+
+}

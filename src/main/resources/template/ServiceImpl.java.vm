@@ -1,0 +1,32 @@
+package ${packageName}.service.impl;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${packageName}.service.${ClassName}Service;
+import ${packageName}.mapper.${ClassName}Mapper;
+import ${packageName}.entity.${ClassName};
+
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * @ClassName ${ClassName}ServiceImpl
+ * @Description TODO
+ * @Author 江神
+ * @Date ${now}
+ * @Version 1.0
+ **/
+@Service
+@Slf4j
+public class ${ClassName}ServiceImpl implements ${ClassName}Service {
+    @Autowired
+    ${ClassName}Mapper ${className}Mapper;
+    @Override
+    public Integer add${ClassName}(${ClassName} ${className}){
+        return ${className}Mapper.add${ClassName}(${className});
+    }
+
+
+}

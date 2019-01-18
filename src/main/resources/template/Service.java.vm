@@ -1,0 +1,15 @@
+package ${packageName}.service;
+
+import ${packageName}.entity.${ClassName};
+
+/**
+ * @InterfaceName ${ClassName}Service
+ * @Description TODO
+ * @Author 江神
+ * @Date ${now}
+ * @Version 1.0
+ **/
+public interface ${ClassName}Service {
+
+    Integer add${ClassName}(${ClassName} ${className});
+}

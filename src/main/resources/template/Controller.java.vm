@@ -1,0 +1,44 @@
+package ${packageName}.controller;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ResponseHeader;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.${ClassName}Service;
+
+/**
+ * @ClassName ${ClassName}Controller
+ * @Description TODO
+ * @Author 江神
+ * @Date ${now}
+ * @Version 1.0
+ **/
+@RestController
+@Slf4j
+@RequestMapping("/api")
+public class ${ClassName}Controller {
+    @Autowired
+    ${ClassName}Service ${className}Service;
+
+    @ApiOperation(value = "添加${ClassName}")
+    @PostMapping(value = "/${className}")
+    @ResponseHeader(name = "wtf")
+    public void add${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
+        log.info("{}","add${ClassName}");
+        ${className}Service.add${ClassName}(${className});
+
+    }
+    @ApiOperation(value = "修改${ClassName}")
+    @PutMapping(value = "/${className}")
+    @ResponseHeader(name = "wtf")
+    public void update${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
+        log.info("{}","update${ClassName}");
+        ${className}Service.update${ClassName}(${className});
+
+    }
+
+}
+
