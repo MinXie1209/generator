@@ -70,10 +70,14 @@ public class GeneratorUtils {
 
             VelocityContext context = new VelocityContext(attributes);
             for (TableColumn tableColumn : table.getTableColumns()) {
-                tableColumn.setColumnName(tableColumnToJavaAttribute(tableColumn.getColumnName()));
+                tableColumn.setJavaColumnName(tableColumnToJavaAttribute(tableColumn.getColumnName()));
+                if ("PRI".equals(tableColumn.getColumnKey())){
+                    table.setPk(tableColumn.getColumnName());
+                }
             }
             context.put("tableColumns", table.getTableColumns());
-
+            context.put("pk",table.getPk());
+            context.put("javaPk",tableColumnToJavaAttribute(table.getPk()));
             if (templates != null && !templates.isEmpty()) {
                 for (String templateStr : templates) {
 
@@ -198,11 +202,20 @@ public class GeneratorUtils {
             stringBuffer.append(File.separator);
             stringBuffer.append(className);
             stringBuffer.append(VelocityConf.CAP_MAPPER);
-        } else {
+        } else if (VelocityConf.PO_VM.equals(templateStr)){
             stringBuffer.append(VelocityConf.LOW_PO);
             stringBuffer.append(File.separator);
             stringBuffer.append(className);
             //stringBuffer.append(VelocityConf.CAP_PO);
+        }else if (VelocityConf.PROVIDER_VM.equals(templateStr)){
+            stringBuffer.append(VelocityConf.LOW_MAPPER);
+            stringBuffer.append(File.separator);
+            stringBuffer.append(VelocityConf.LOW_PROVIDER);
+            stringBuffer.append(File.separator);
+            stringBuffer.append(className);
+            stringBuffer.append(VelocityConf.CAP_PROVIDER);
+        }else {
+
         }
 
         return stringBuffer.append(".java").toString();
@@ -258,6 +271,7 @@ public class GeneratorUtils {
         templates.add(VelocityConf.SERVICEIMPL_VM);
         templates.add(VelocityConf.MAPPER_VM);
         templates.add(VelocityConf.PO_VM);
+        templates.add(VelocityConf.PROVIDER_VM);
 
 
         return templates;
