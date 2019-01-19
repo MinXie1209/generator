@@ -76,16 +76,10 @@ public class GeneratorUtils {
                 tableColumn.setJavaColumnName(tableColumnToJavaAttribute(tableColumn.getColumnName()));
                 tableColumn.setMethodName(tableColumnToMethodName(tableColumn.getColumnName()));
                 if ("PRI".equals(tableColumn.getColumnKey())){
-                    /*table.setPk(tableColumn.getColumnName());
-                    table.setJavaPk(tableColumnToJavaAttribute(table.getPk()));
-                    table.setPkMethodName(tableColumnToMethodName(tableColumn.getColumnName()));*/
                     primaryKey=new PrimaryKey(tableColumn.getColumnName(),tableColumnToJavaAttribute(tableColumn.getColumnName()),tableColumnToMethodName(tableColumn.getColumnName()),tableColumn.getJavaType());
                 }
             }
             context.put("tableColumns", table.getTableColumns());
-           /* context.put("pk",table.getPk());
-            context.put("javaPk",table.getJavaPk());
-            context.put("pkMethodName",table.getPkMethodName());*/
             context.put("primaryKey",primaryKey);
             if (templates != null && !templates.isEmpty()) {
                 for (String templateStr : templates) {
@@ -102,7 +96,7 @@ public class GeneratorUtils {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    // log.info("template:{},{}", template.getName(), stringWriter.toString());
+
                 }
             }
 

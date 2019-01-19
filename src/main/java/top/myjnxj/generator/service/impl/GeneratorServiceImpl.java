@@ -1,21 +1,20 @@
 package top.myjnxj.generator.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.myjnxj.generator.bo.Generator;
 import top.myjnxj.generator.conf.GeneratorConf;
 import top.myjnxj.generator.entity.Table;
+
 import top.myjnxj.generator.entity.TableColumn;
-import top.myjnxj.generator.mapper.GeneratorMapper;
 import top.myjnxj.generator.service.GeneratorService;
+import top.myjnxj.generator.util.DAOUtils;
 import top.myjnxj.generator.util.GeneratorUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipOutputStream;
 
 /**
  * @ClassName GeneratorServiceImpl
@@ -28,8 +27,6 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class GeneratorServiceImpl implements GeneratorService {
     @Autowired
-    GeneratorMapper generatorMapper;
-    @Autowired
     GeneratorConf generatorConf;
 
     /**
@@ -41,18 +38,15 @@ public class GeneratorServiceImpl implements GeneratorService {
     @Override
     public byte[] generator(Generator generator) throws IOException {
 
-        List<Table> tables=null;
+        List<Table> tables=new ArrayList<>();
         synchronized (this){
             //TODO 连接数据库
-            //通过数据库名获取表以及表信息
-           tables= generatorMapper.listTable(generator.getDataBase());
-
-           if(tables!=null&&!tables.isEmpty()){
-               for (Table table:tables){
-                   log.info("{}",table.toString());
-                   List<TableColumn>tableColumns=generatorMapper.listTableColumn(table);
-                   GeneratorUtils.dataTypeToJavaType(tableColumns,generatorConf);
-                   table.setTableColumns(tableColumns);
+            DAOUtils.queryTableAndTableColumns(generator,tables);
+           for (Table table:tables){
+               GeneratorUtils.dataTypeToJavaType(table.getTableColumns(),generatorConf);
+               log.info("{}",table.getTableName());
+               for (TableColumn tableColumn:table.getTableColumns()){
+                   log.info("{}",tableColumn.getColumnName());
                }
            }
        }

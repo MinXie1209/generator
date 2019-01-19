@@ -9,10 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import top.myjnxj.generator.bo.Generator;
+import top.myjnxj.generator.entity.Table;
 import top.myjnxj.generator.service.GeneratorService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static top.myjnxj.generator.util.DAOUtils.queryTableAndTableColumns;
 
 /**
  * @ClassName GeneratorController
@@ -31,12 +36,8 @@ public class GeneratorController {
     @ApiOperation(value = "生成代码")
     @GetMapping(value = "/generator")
     @ResponseHeader(name = "wtf")
-    public void generator( final HttpServletResponse response/*@ApiParam("生成的参数") @RequestBody Generator generator*/) throws IOException {
-        Generator generator=new Generator();
-        generator.setPackageName("top.myjnxj.wechat");
-        generator.setUrl("jdbc:mysql://127.0.0.1:3306/wechat?useUnicode=true&characterEncoding=utf-8&userSSL=false&serverTimezone=GMT%2B8");
-        generator.setUserName("root");
-        generator.setPassword("Jun6311158");
+    public void generator( final HttpServletResponse response ,@ApiParam("生成的参数") @RequestBody(required = false) Generator generator) throws IOException {
+
         log.info("generator:{}",generator.toString());
         byte[] result=generatorService.generator(generator);
         response.reset();
