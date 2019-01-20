@@ -81,6 +81,7 @@ public class GeneratorUtils {
             }
             context.put("tableColumns", table.getTableColumns());
             context.put("primaryKey",primaryKey);
+            context.put("tableName",table.getTableName());
             if (templates != null && !templates.isEmpty()) {
                 for (String templateStr : templates) {
 

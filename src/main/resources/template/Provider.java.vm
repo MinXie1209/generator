@@ -12,7 +12,7 @@ import ${packageName}.entity.${ClassName};
  **/
 public class ${ClassName}Provider {
     public String update${ClassName}(${ClassName} ${className}){
-        StringBuilder stringBuilder=new StringBuilder("update ${className} set ");
+        StringBuilder stringBuilder=new StringBuilder("update ${tableName} set ");
         #foreach($tableColumn in $tableColumns)
         #if ($tableColumn.columnKey!="PRI")
 
@@ -37,21 +37,21 @@ public class ${ClassName}Provider {
     }
 
     public String delete${ClassName}ById(${primaryKey.javaType} id){//暂时设定主键为Integer,后封装一个主键类
-        StringBuilder stringBuilder=new StringBuilder("delete from  ${className} where ${primaryKey.pk}='");
+        StringBuilder stringBuilder=new StringBuilder("delete from  ${tableName} where ${primaryKey.pk}='");
         stringBuilder.append(id);
         stringBuilder.append("'");
         return stringBuilder.toString();
     }
 
     public String get${ClassName}ById(${primaryKey.javaType} id){
-        StringBuilder stringBuilder=new StringBuilder("select * from  ${className} where ${primaryKey.pk}='");
+        StringBuilder stringBuilder=new StringBuilder("select * from  ${tableName} where ${primaryKey.pk}='");
         stringBuilder.append(id);
         stringBuilder.append("'");
         return stringBuilder.toString();
     }
 
     public String list${ClassName}(){
-        StringBuilder stringBuilder=new StringBuilder("select * from  ${className}");
+        StringBuilder stringBuilder=new StringBuilder("select * from  ${tableName}");
         return stringBuilder.toString();
 
     }

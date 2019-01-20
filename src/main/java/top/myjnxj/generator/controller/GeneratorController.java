@@ -29,12 +29,13 @@ import static top.myjnxj.generator.util.DAOUtils.queryTableAndTableColumns;
 @Controller
 @Slf4j
 @RequestMapping("/api")
+@CrossOrigin
 public class GeneratorController {
     @Autowired
     GeneratorService generatorService;
 
     @ApiOperation(value = "生成代码")
-    @GetMapping(value = "/generator")
+    @PostMapping(value = "/generator")
     @ResponseHeader(name = "wtf")
     public void generator( final HttpServletResponse response ,@ApiParam("生成的参数") @RequestBody(required = false) Generator generator) throws IOException {
 
@@ -44,6 +45,7 @@ public class GeneratorController {
         response.setHeader("Content-Disposition", "attachment; filename=\"springboot.rar\"");
         response.addHeader("Content-Length", "" + result.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin","*");
         IOUtils.write(result, response.getOutputStream());
 
     }

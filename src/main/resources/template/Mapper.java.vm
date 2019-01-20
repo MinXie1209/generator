@@ -16,7 +16,7 @@ import java.util.List;
  **/
 @Mapper
 public interface ${ClassName}Mapper {
-    @Insert("insert into ${className}(#foreach($tableColumn in $tableColumns)$tableColumn.columnName#if($foreach.hasNext),#end#end) value(#foreach($tableColumn in $tableColumns)#{${className}.$tableColumn.javaColumnName}#if($foreach.hasNext),#end#end)")
+    @Insert("insert into ${tableName}(#foreach($tableColumn in $tableColumns)$tableColumn.columnName#if($foreach.hasNext),#end#end) value(#foreach($tableColumn in $tableColumns)#{${className}.$tableColumn.javaColumnName}#if($foreach.hasNext),#end#end)")
     Integer add${ClassName}(@Param("${className}")${ClassName} ${className});
 
     @UpdateProvider(type=${ClassName}Provider.class,method="update${ClassName}")
