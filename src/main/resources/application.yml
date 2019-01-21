@@ -32,3 +32,14 @@ generator:
     date: Date
     datetime: Date
     timestamp: Date
+
+spring:
+  #邮件服务配置
+  mail:
+    host: smtp.126.com
+    username: myjnxj@126.com
+    password:
+    default-encoding: UTF-8
+mail:
+  fromMail:
+    addr: myjnxj@126.com
