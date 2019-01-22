@@ -13,6 +13,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.stereotype.Component;
 import top.myjnxj.generator.bo.Generator;
 import top.myjnxj.generator.conf.GeneratorConf;
+import top.myjnxj.generator.conf.TemplateConf;
 import top.myjnxj.generator.constant.VelocityConf;
 import top.myjnxj.generator.entity.PrimaryKey;
 import top.myjnxj.generator.entity.Table;
@@ -50,7 +51,7 @@ public class GeneratorUtils {
      *
      * @param tables
      */
-    public static byte[] generator(List<Table> tables, Generator generator) throws IOException {
+    public static byte[] generator(List<Table> tables, Generator generator, TemplateConf templateConf) throws IOException {
         //字节数组输出流
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
