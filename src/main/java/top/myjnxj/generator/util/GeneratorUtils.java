@@ -46,6 +46,7 @@ public class GeneratorUtils {
 
     /**
      * 生成相关的zip文件
+     * 主入口
      *
      * @param tables
      */
@@ -68,20 +69,20 @@ public class GeneratorUtils {
 
             //给模板注入属性
             Map<String, String> attributes = new HashMap<>();
-            getAttributes(attributes, templateAttribute);
+            setAttributes(attributes, templateAttribute);
 
             VelocityContext context = new VelocityContext(attributes);
-            PrimaryKey primaryKey=null;
+            PrimaryKey primaryKey = null;
             for (TableColumn tableColumn : table.getTableColumns()) {
                 tableColumn.setJavaColumnName(tableColumnToJavaAttribute(tableColumn.getColumnName()));
                 tableColumn.setMethodName(tableColumnToMethodName(tableColumn.getColumnName()));
-                if ("PRI".equals(tableColumn.getColumnKey())){
-                    primaryKey=new PrimaryKey(tableColumn.getColumnName(),tableColumnToJavaAttribute(tableColumn.getColumnName()),tableColumnToMethodName(tableColumn.getColumnName()),tableColumn.getJavaType());
+                if ("PRI".equals(tableColumn.getColumnKey())) {
+                    primaryKey = new PrimaryKey(tableColumn.getColumnName(), tableColumnToJavaAttribute(tableColumn.getColumnName()), tableColumnToMethodName(tableColumn.getColumnName()), tableColumn.getJavaType());
                 }
             }
             context.put("tableColumns", table.getTableColumns());
-            context.put("primaryKey",primaryKey);
-            context.put("tableName",table.getTableName());
+            context.put("primaryKey", primaryKey);
+            context.put("tableName", table.getTableName());
             if (templates != null && !templates.isEmpty()) {
                 for (String templateStr : templates) {
 
@@ -112,7 +113,7 @@ public class GeneratorUtils {
 
             StringWriter stringWriter = new StringWriter();
             template.merge(context, stringWriter);
-            String fileName = getFileName(staticTemplate,generator.getPackageName());
+            String fileName = getFileName(staticTemplate, generator.getPackageName());
             log.info("fileName:{}", fileName);
             writeTemplate(zipOutputStream, fileName, stringWriter);
         }
@@ -125,14 +126,10 @@ public class GeneratorUtils {
 
     }
 
-    private static String tableColumnToMethodName(String javaColumnName) {
-        StringBuilder stringBuilder=new StringBuilder("get");
-        stringBuilder.append(tableNameToClassName(javaColumnName));
-        return stringBuilder.append("()").toString();
-    }
-
     /**
      * 获取文件路径
+     * 这是获取静态模板的路径名的方法，还有动态的，可以想着通过配置文件获取文件名，这样不用区别模板类型了
+     * 根据包名和模板名获取要生成的文件的全限定名（包括工程名，路径和文件名）
      *
      * @param staticTemplate
      * @param packageName
@@ -146,37 +143,15 @@ public class GeneratorUtils {
             return stringBuffer.append(ROOT + File.separator + VelocityConf.POM_XML).toString();
         } else if (VelocityConf.APPLICATION_VM.equals(staticTemplate)) {
             stringBuffer.append(JAVA_ROOT + File.separator);
-            stringBuffer.append(packageName.replace(".",File.separator));
+            stringBuffer.append(packageName.replace(".", File.separator));
             stringBuffer.append(File.separator);
             return stringBuffer.append(VelocityConf.APPLICATION).toString();
-        }else if (VelocityConf.BANNER_VM.equals(staticTemplate)) {
+        } else if (VelocityConf.BANNER_VM.equals(staticTemplate)) {
             return stringBuffer.append(RESOUCRCES + File.separator + VelocityConf.BANNER).toString();
-        }else{
+        } else {
             return "";
         }
 
-    }
-
-    private static void writeTemplate(ZipOutputStream zipOutputStream, String fileName, StringWriter stringWriter) throws IOException {
-        zipOutputStream.putNextEntry(new ZipEntry(fileName));
-        zipOutputStream.write(stringWriter.toString().getBytes("UTF-8"));
-        zipOutputStream.closeEntry();
-        stringWriter.close();
-    }
-
-    /**
-     * 获取不与表有关的模板
-     *
-     * @return
-     */
-    private static List<String> getStaticTemplates() {
-        List<String> templates = new ArrayList<>();
-        templates.add(VelocityConf.APPLICATION_YML_VM);
-        templates.add(VelocityConf.POM_XML_VM);
-        templates.add(VelocityConf.APPLICATION_VM);
-        templates.add(VelocityConf.BANNER_VM);
-
-        return templates;
     }
 
     /**
@@ -212,23 +187,50 @@ public class GeneratorUtils {
             stringBuffer.append(File.separator);
             stringBuffer.append(className);
             stringBuffer.append(VelocityConf.CAP_MAPPER);
-        } else if (VelocityConf.PO_VM.equals(templateStr)){
+        } else if (VelocityConf.PO_VM.equals(templateStr)) {
             stringBuffer.append(VelocityConf.LOW_PO);
             stringBuffer.append(File.separator);
             stringBuffer.append(className);
             //stringBuffer.append(VelocityConf.CAP_PO);
-        }else if (VelocityConf.PROVIDER_VM.equals(templateStr)){
+        } else if (VelocityConf.PROVIDER_VM.equals(templateStr)) {
             stringBuffer.append(VelocityConf.LOW_MAPPER);
             stringBuffer.append(File.separator);
             stringBuffer.append(VelocityConf.LOW_PROVIDER);
             stringBuffer.append(File.separator);
             stringBuffer.append(className);
             stringBuffer.append(VelocityConf.CAP_PROVIDER);
-        }else {
+        } else {
 
         }
 
         return stringBuffer.append(".java").toString();
+    }
+
+    /**
+     * 把字符流写入zip输出流中
+     *
+     * @param zipOutputStream
+     * @param fileName
+     * @param stringWriter
+     * @throws IOException
+     */
+    private static void writeTemplate(ZipOutputStream zipOutputStream, String fileName, StringWriter stringWriter) throws IOException {
+        zipOutputStream.putNextEntry(new ZipEntry(fileName));
+        zipOutputStream.write(stringWriter.toString().getBytes("UTF-8"));
+        zipOutputStream.closeEntry();
+        stringWriter.close();
+    }
+
+    /**
+     * 列名变Java getter方法名
+     *
+     * @param javaColumnName
+     * @return
+     */
+    private static String tableColumnToMethodName(String javaColumnName) {
+        StringBuilder stringBuilder = new StringBuilder("get");
+        stringBuilder.append(tableNameToClassName(javaColumnName));
+        return stringBuilder.append("()").toString();
     }
 
     /**
@@ -238,7 +240,7 @@ public class GeneratorUtils {
      * @return
      */
     private static String tableNameToClassName(String tableName) {
-        if (StringUtils.isNotBlank(tableName)){
+        if (StringUtils.isNotBlank(tableName)) {
             return WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
         }
         return tableName;
@@ -256,8 +258,24 @@ public class GeneratorUtils {
         return WordUtils.uncapitalize(result);
     }
 
+    /**
+     * 数据库字段类型转Java类型
+     *
+     * @param tableColumns
+     */
+    public static void dataTypeToJavaType(List<TableColumn> tableColumns, GeneratorConf generatorConf) {
+        for (TableColumn tableColumn : tableColumns) {
+            tableColumn.setJavaType(generatorConf.getConf().get(tableColumn.getDataType()));
+        }
+    }
 
-    private static void getAttributes(Map<String, String> attributes, TemplateAttribute templateAttribute) {
+    /**
+     * 往上下文中注入参数信息
+     *
+     * @param attributes
+     * @param templateAttribute
+     */
+    private static void setAttributes(Map<String, String> attributes, TemplateAttribute templateAttribute) {
         attributes.put("packageName", templateAttribute.getPackageName());
         attributes.put("ClassName", templateAttribute.getCapClassName());
         attributes.put("className", templateAttribute.getLowClassName());
@@ -265,7 +283,7 @@ public class GeneratorUtils {
     }
 
     public static void main(String[] args) {
-       // log.info("{}", getFileName("com.java.demo", "Account", "ServiceImpl.java.vm"));
+        // log.info("{}", getFileName("com.java.demo", "Account", "ServiceImpl.java.vm"));
         log.info("{}", tableNameToClassName("account_id"));
     }
 
@@ -292,15 +310,19 @@ public class GeneratorUtils {
         return templates;
     }
 
-
     /**
-     * 数据库字段类型转Java类型
+     * 获取不与表有关的模板
      *
-     * @param tableColumns
+     * @return
      */
-    public static void dataTypeToJavaType(List<TableColumn> tableColumns, GeneratorConf generatorConf) {
-        for (TableColumn tableColumn : tableColumns) {
-            tableColumn.setJavaType(generatorConf.getConf().get(tableColumn.getDataType()));
-        }
+    private static List<String> getStaticTemplates() {
+        List<String> templates = new ArrayList<>();
+        templates.add(VelocityConf.APPLICATION_YML_VM);
+        templates.add(VelocityConf.POM_XML_VM);
+        templates.add(VelocityConf.APPLICATION_VM);
+        templates.add(VelocityConf.BANNER_VM);
+
+        return templates;
     }
+
 }
