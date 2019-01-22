@@ -40,6 +40,10 @@ spring:
     username: myjnxj@126.com
     password:
     default-encoding: UTF-8
+  #aop配置
+  aop:
+    auto: true
+    proxy-target-class: true
 mail:
   fromMail:
     addr: myjnxj@126.com
