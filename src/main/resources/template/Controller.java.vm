@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ${packageName}.entity.${ClassName};
 import ${packageName}.service.${ClassName}Service;
+import ${packageName}.common.entity.Page;
 
 /**
  * @ClassName ${ClassName}Controller
