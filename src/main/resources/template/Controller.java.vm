@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import ${packageName}.entity.${ClassName};
 import ${packageName}.service.${ClassName}Service;
 import ${packageName}.common.entity.Page;
+import ${packageName}.common.util.ResultUtils;
+import ${packageName}.common.vo.Result;
 
 /**
  * @ClassName ${ClassName}Controller
@@ -22,39 +24,57 @@ import ${packageName}.common.entity.Page;
 @RequestMapping("/api")
 public class ${ClassName}Controller {
     @Autowired
-    ${ClassName}Service ${className}Service;
+        ${ClassName}Service ${className}Service;
 
     @ApiOperation(value = "添加${ClassName}")
     @PostMapping(value = "/${className}")
-    public Object add${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
-        log.info("{}","add${ClassName}");
-        return ${className}Service.add${ClassName}(${className});
+    public Result add${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
+        log.info("{}", "add${ClassName}");
+        int res = ${className}Service.add${ClassName}(${className});
+        if (res == 1) {
+            return ResultUtils.success();
+        } else {
+            return ResultUtils.error("添加失败");
+        }
 
     }
+
     @ApiOperation(value = "修改${ClassName}")
     @PutMapping(value = "/${className}")
-    public Object update${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
-        log.info("{}","update${ClassName}");
-        return ${className}Service.update${ClassName}(${className});
-
+    public Result update${ClassName}(@ApiParam("${ClassName}") @RequestBody ${ClassName} ${className}) {
+        log.info("{}", "update${ClassName}");
+        int res = ${className}Service.update${ClassName}(${className});
+        if (res == 1) {
+            return ResultUtils.success();
+        } else {
+            return ResultUtils.error("修改失败");
+        }
     }
+
     @ApiOperation(value = "删除${ClassName}")
     @DeleteMapping(value = "/${className}/{id}")
-    public Object delete${ClassName}ById(@ApiParam("id") @PathVariable("id") ${primaryKey.javaType} id) {
-        log.info("{}","delete${ClassName}ById");
-        return ${className}Service.delete${ClassName}ById(id);
+    public Result delete${ClassName}ById(@ApiParam("id") @PathVariable("id") ${primaryKey.javaType} id) {
+        log.info("{}", "delete${ClassName}ById");
+        int res = ${className}Service.delete${ClassName}ById(id);
+        if (res == 1) {
+            return ResultUtils.success();
+        } else {
+            return ResultUtils.error("删除失败");
+        }
     }
+
     @ApiOperation(value = "通过id获取${ClassName}")
     @GetMapping(value = "/${className}/{id}")
-    public Object get${ClassName}ById(@ApiParam("id") @PathVariable("id") ${primaryKey.javaType} id) {
-        log.info("{}","get${ClassName}ById");
-        return ${className}Service.get${ClassName}ById(id);
+    public Result get${ClassName}ById(@ApiParam("id") @PathVariable("id") ${primaryKey.javaType} id) {
+        log.info("{}", "get${ClassName}ById");
+        return ResultUtils.success(${className}Service.get${ClassName}ById(id));
     }
+
     @ApiOperation(value = "获取所有${ClassName}")
     @GetMapping(value = "/${className}")
-    public Object list${ClassName}(Page page) {
-        log.info("{}","list${ClassName}");
-        return ${className}Service.list${ClassName}(page);
+    public Result list${ClassName}(Page page) {
+        log.info("{}", "list${ClassName}");
+        return ResultUtils.success(${className}Service.list${ClassName}(page));
     }
 }
 
