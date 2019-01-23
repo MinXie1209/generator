@@ -15,6 +15,6 @@ public class Page {
     /**
     * 页容量
     */
-    private int pageSize;
+    private int pageSize=10;
 
 }
