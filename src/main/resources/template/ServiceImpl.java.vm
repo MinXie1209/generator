@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import ${packageName}.service.${ClassName}Service;
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.entity.${ClassName};
+import ${packageName}.common.entity.Page;
 
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
 import java.util.List;
@@ -42,8 +42,8 @@ public class ${ClassName}ServiceImpl implements ${ClassName}Service {
         return ${className}Mapper.get${ClassName}ById(id);
     }
     @Override
-    public PageInfo<${ClassName}> list${ClassName}(){
-        Page page=PageHelper.startPage(2,10);//这块再封装一个Page:pageNum-页数，pageSize-容量
+    public PageInfo<${ClassName}> list${ClassName}(Page page){
+        PageHelper.startPage(page.getPageNum(),page.getPageSize());//这块再封装一个Page:pageNum-页数，pageSize-容量
         return new PageInfo<${ClassName}>(${className}Mapper.list${ClassName}());
     }
 

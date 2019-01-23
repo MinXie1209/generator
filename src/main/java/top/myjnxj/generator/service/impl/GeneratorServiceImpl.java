@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.myjnxj.generator.bo.Generator;
 import top.myjnxj.generator.conf.GeneratorConf;
+import top.myjnxj.generator.conf.TemplateConf;
 import top.myjnxj.generator.entity.Table;
 
 import top.myjnxj.generator.entity.TableColumn;
@@ -28,6 +29,8 @@ import java.util.List;
 public class GeneratorServiceImpl implements GeneratorService {
     @Autowired
     GeneratorConf generatorConf;
+    @Autowired
+    TemplateConf templateConf;
 
     /**
      * 1.获取表
@@ -42,18 +45,19 @@ public class GeneratorServiceImpl implements GeneratorService {
         synchronized (this){
             //TODO 连接数据库
             DAOUtils.queryTableAndTableColumns(generator,tables);
+            templateConf.replace(generator.getPackageName());
            for (Table table:tables){
                GeneratorUtils.dataTypeToJavaType(table.getTableColumns(),generatorConf);
-               log.info("{}",table.getTableName());
+               //log.info("{}",table.getTableName());
                for (TableColumn tableColumn:table.getTableColumns()){
-                   log.info("{}",tableColumn.getColumnName());
+                 //  log.info("{}",tableColumn.getColumnName());
                }
            }
        }
 
 
 
-        return  GeneratorUtils.generator(tables,generator);
+        return  GeneratorUtils.generator(tables,generator,templateConf);
     }
 
 

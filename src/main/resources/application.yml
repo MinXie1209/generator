@@ -1,7 +1,7 @@
 server:
   port: 80
 logging:
-  file: log/log.txt
+  file: log.log.txt
 
 generator:
   conf:
@@ -32,6 +32,22 @@ generator:
     date: Date
     datetime: Date
     timestamp: Date
+ROOT: project
+JAVA_ROOT: ${ROOT}.src.main.java
+RESOUCRCES: ${ROOT}.src.main.resources
+template:
+  conf:
+   Controller.java.vm: ${JAVA_ROOT}.packageName.controller.classNameController:java
+   Service.java.vm: ${JAVA_ROOT}.packageName.service.classNameService:java
+   ServiceImpl.java.vm: ${JAVA_ROOT}.packageName.service.impl.classNameServiceImpl:java
+   Mapper.java.vm: ${JAVA_ROOT}.packageName.mapper.classNameMapper:java
+   Provider.java.vm: ${JAVA_ROOT}.packageName.mapper.provider.classNameProvider:java
+   PO.java.vm: ${JAVA_ROOT}.packageName.entity.className:java
+   Page.java.vm: ${JAVA_ROOT}.packageName.common.entity.Page:java
+   Application.java.vm: ${JAVA_ROOT}.packageName.Application:java
+   application.yml.vm: ${RESOUCRCES}.application:yml
+   banner.txt.vm: ${RESOUCRCES}.banner:txt
+   pom.xml.vm: ${ROOT}.pom:xml
 
 spring:
   #邮件服务配置
