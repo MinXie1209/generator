@@ -25,4 +25,11 @@ public class VelocityConf {
     public static final String BANNER_VM = TEMPLATE + File.separator + "banner.txt.vm";
 
     public static final String PAGE_VM = TEMPLATE + File.separator + "Page.java.vm";
+    public static final String SWAGGER2_VM = TEMPLATE + File.separator + "Swagger2.java.vm";
+    public static final String RESULTENUM_VM = TEMPLATE + File.separator + "ResultEnum.java.vm";
+    public static final String EXCEPTIONCONTROLLERADVICE_VM = TEMPLATE + File.separator + "ExceptionControllerAdvice.java.vm";
+    public static final String RESULTEXCEPTION_VM = TEMPLATE + File.separator + "ResultException.java.vm";
+    public static final String RESULTUTILS_VM = TEMPLATE + File.separator + "ResultUtils.java.vm";
+    public static final String TOKENUTILS_VM = TEMPLATE + File.separator + "TokenUtils.java.vm";
+    public static final String RESULT_VM = TEMPLATE + File.separator + "Result.java.vm";
 }

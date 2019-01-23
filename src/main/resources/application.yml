@@ -44,10 +44,18 @@ template:
    Provider.java.vm: ${JAVA_ROOT}.packageName.mapper.provider.classNameProvider:java
    PO.java.vm: ${JAVA_ROOT}.packageName.entity.className:java
    Page.java.vm: ${JAVA_ROOT}.packageName.common.entity.Page:java
+   Swagger2.java.vm: ${JAVA_ROOT}.packageName.common.conf.Swagger2:java
+   ResultEnum.java.vm: ${JAVA_ROOT}.packageName.common.enums.ResultEnum:java
+   ExceptionControllerAdvice.java.vm: ${JAVA_ROOT}.packageName.common.exception.ExceptionControllerAdvice:java
+   ResultException.java.vm: ${JAVA_ROOT}.packageName.common.exception.ResultException:java
+   ResultUtils.java.vm: ${JAVA_ROOT}.packageName.common.util.ResultUtils:java
+   TokenUtils.java.vm: ${JAVA_ROOT}.packageName.common.util.TokenUtils:java
+   Result.java.vm: ${JAVA_ROOT}.packageName.common.vo.Result:java
    Application.java.vm: ${JAVA_ROOT}.packageName.Application:java
    application.yml.vm: ${RESOUCRCES}.application:yml
    banner.txt.vm: ${RESOUCRCES}.banner:txt
    pom.xml.vm: ${ROOT}.pom:xml
+
 
 spring:
   #邮件服务配置

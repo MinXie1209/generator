@@ -267,6 +267,13 @@ public class GeneratorUtils {
         templates.add(VelocityConf.APPLICATION_VM);
         templates.add(VelocityConf.BANNER_VM);
         templates.add(VelocityConf.PAGE_VM);
+        templates.add(VelocityConf.SWAGGER2_VM);
+        templates.add(VelocityConf.RESULTENUM_VM);
+        templates.add(VelocityConf.EXCEPTIONCONTROLLERADVICE_VM);
+        templates.add(VelocityConf.RESULTEXCEPTION_VM);
+        templates.add(VelocityConf.RESULTUTILS_VM);
+        templates.add(VelocityConf.TOKENUTILS_VM);
+        templates.add(VelocityConf.RESULT_VM);
         return templates;
     }
 
