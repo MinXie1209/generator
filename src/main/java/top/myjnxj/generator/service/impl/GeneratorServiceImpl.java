@@ -48,9 +48,9 @@ public class GeneratorServiceImpl implements GeneratorService {
             templateConf.replace(generator.getPackageName());
            for (Table table:tables){
                GeneratorUtils.dataTypeToJavaType(table.getTableColumns(),generatorConf);
-               log.info("{}",table.getTableName());
+               //log.info("{}",table.getTableName());
                for (TableColumn tableColumn:table.getTableColumns()){
-                   log.info("{}",tableColumn.getColumnName());
+                 //  log.info("{}",tableColumn.getColumnName());
                }
            }
        }

@@ -38,11 +38,17 @@ import java.util.zip.ZipOutputStream;
 @Component
 @Slf4j
 public class GeneratorUtils {
-    //工程目录
+    /**
+     * 工程目录
+     */
     private static final String ROOT = "springbootjnxj";
-    //resources目录
+    /**
+     * resources目录
+     */
     private static final String RESOUCRCES = ROOT + File.separator + "src" + File.separator + "main" + File.separator + "resources";
-    //代码目录
+    /**
+     * 代码目录
+     */
     private static final String JAVA_ROOT = ROOT + File.separator + "src" + File.separator + "main" + File.separator + "java";
 
     /**
@@ -69,7 +75,7 @@ public class GeneratorUtils {
             TemplateAttribute templateAttribute = new TemplateAttribute(generator.getPackageName(), className, tableColumnToJavaAttribute(table.getTableName()));
 
             //给模板注入属性
-            Map<String, String> attributes = new HashMap<>();
+            Map<String, String> attributes = new HashMap<>(4);
             setAttributes(attributes, templateAttribute);
 
             VelocityContext context = new VelocityContext(attributes);
@@ -92,7 +98,7 @@ public class GeneratorUtils {
                     StringWriter stringWriter = new StringWriter();
                     template.merge(context, stringWriter);
                     try {
-                        String fileName = getFileName(generator.getPackageName(), className, templateStr);
+                        String fileName = getFileName(templateStr,templateConf,className);
                         log.info("fileName:{}", fileName);
                         writeTemplate(zipOutputStream, fileName, stringWriter);
 
@@ -114,7 +120,7 @@ public class GeneratorUtils {
 
             StringWriter stringWriter = new StringWriter();
             template.merge(context, stringWriter);
-            String fileName = getFileName(staticTemplate, generator.getPackageName());
+            String fileName = getFileName(staticTemplate,  templateConf,null);
             log.info("fileName:{}", fileName);
             writeTemplate(zipOutputStream, fileName, stringWriter);
         }
@@ -131,80 +137,19 @@ public class GeneratorUtils {
      * 获取文件路径
      * 这是获取静态模板的路径名的方法，还有动态的，可以想着通过配置文件获取文件名，这样不用区别模板类型了
      * 根据包名和模板名获取要生成的文件的全限定名（包括工程名，路径和文件名）
-     *
-     * @param staticTemplate
-     * @param packageName
-     * @return
-     */
-    private static String getFileName(String staticTemplate, String packageName) {
-        StringBuffer stringBuffer = new StringBuffer();
-        if (VelocityConf.APPLICATION_YML_VM.equals(staticTemplate)) {
-            return stringBuffer.append(RESOUCRCES + File.separator + VelocityConf.APPLICATION_YML).toString();
-        } else if (VelocityConf.POM_XML_VM.equals(staticTemplate)) {
-            return stringBuffer.append(ROOT + File.separator + VelocityConf.POM_XML).toString();
-        } else if (VelocityConf.APPLICATION_VM.equals(staticTemplate)) {
-            stringBuffer.append(JAVA_ROOT + File.separator);
-            stringBuffer.append(packageName.replace(".", File.separator));
-            stringBuffer.append(File.separator);
-            return stringBuffer.append(VelocityConf.APPLICATION).toString();
-        } else if (VelocityConf.BANNER_VM.equals(staticTemplate)) {
-            return stringBuffer.append(RESOUCRCES + File.separator + VelocityConf.BANNER).toString();
-        } else {
-            return "";
-        }
-
-    }
-
-    /**
-     * 获取文件名
-     *
-     * @param packageName
-     * @param className
      * @param templateStr
+     * @param templateConf
      * @return
      */
-    private static String getFileName(String packageName, String className, String templateStr) {
-        StringBuffer stringBuffer = new StringBuffer(JAVA_ROOT);
-        stringBuffer.append(File.separator);
-        stringBuffer.append(packageName.replace(".", File.separator));
-        stringBuffer.append(File.separator);
-        if (VelocityConf.CONTROLLER_VM.equals(templateStr)) {
-            stringBuffer.append(VelocityConf.LOW_CONTROLLER);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(className);
-            stringBuffer.append(VelocityConf.CAP_CONTROLLER);
-        } else if (VelocityConf.SERVICE_VM.equals(templateStr)) {
-            stringBuffer.append(VelocityConf.LOW_SERVICE);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(className);
-            stringBuffer.append(VelocityConf.CAP_SERVICE);
-        } else if (VelocityConf.SERVICEIMPL_VM.equals(templateStr)) {
-            stringBuffer.append(VelocityConf.LOW_SERVICEIMPL);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(className);
-            stringBuffer.append(VelocityConf.CAP_SERVICEIMPL);
-        } else if (VelocityConf.MAPPER_VM.equals(templateStr)) {
-            stringBuffer.append(VelocityConf.LOW_MAPPER);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(className);
-            stringBuffer.append(VelocityConf.CAP_MAPPER);
-        } else if (VelocityConf.PO_VM.equals(templateStr)) {
-            stringBuffer.append(VelocityConf.LOW_PO);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(className);
-            //stringBuffer.append(VelocityConf.CAP_PO);
-        } else if (VelocityConf.PROVIDER_VM.equals(templateStr)) {
-            stringBuffer.append(VelocityConf.LOW_MAPPER);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(VelocityConf.LOW_PROVIDER);
-            stringBuffer.append(File.separator);
-            stringBuffer.append(className);
-            stringBuffer.append(VelocityConf.CAP_PROVIDER);
-        } else {
+    private static String getFileName(String templateStr, TemplateConf templateConf, String className) {
+        if (className==null){
+            return templateConf.getConf().get(templateStr.replace(VelocityConf.TEMPLATE+File.separator,"")).replace(":",".");
+
+        }else{
+            return StringUtils.replace(templateConf.getConf().get(templateStr.replace(VelocityConf.TEMPLATE+File.separator,"")),"className",className).replace(":",".");
 
         }
 
-        return stringBuffer.append(".java").toString();
     }
 
     /**
@@ -251,11 +196,11 @@ public class GeneratorUtils {
     /**
      * 列名转Java成员变量
      *
-     * @param Column
+     * @param column
      * @return
      */
-    private static String tableColumnToJavaAttribute(String Column) {
-        String result = WordUtils.capitalizeFully(Column, new char[]{'_'}).replace("_", "");
+    private static String tableColumnToJavaAttribute(String column) {
+        String result = WordUtils.capitalizeFully(column, new char[]{'_'}).replace("_", "");
         return WordUtils.uncapitalize(result);
     }
 
@@ -281,11 +226,6 @@ public class GeneratorUtils {
         attributes.put("ClassName", templateAttribute.getCapClassName());
         attributes.put("className", templateAttribute.getLowClassName());
         attributes.put("now", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-    }
-
-    public static void main(String[] args) {
-        // log.info("{}", getFileName("com.java.demo", "Account", "ServiceImpl.java.vm"));
-        log.info("{}", tableNameToClassName("account_id"));
     }
 
     /**

@@ -20,7 +20,7 @@ import java.util.Map;
 @Data
 @ConfigurationProperties(prefix = "template")
 public class TemplateConf {
-    private Map<String, String> conf;
+    private  Map<String, String> conf;
 
     public void replace(String packageName) {
         StringBuilder stringBuilder = new StringBuilder();
