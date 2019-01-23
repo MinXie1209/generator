@@ -3,7 +3,6 @@ package ${packageName}.service;
 import ${packageName}.entity.${ClassName};
 
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import java.util.List;
 /**
@@ -23,5 +22,5 @@ public interface ${ClassName}Service {
 
     ${ClassName} get${ClassName}ById(${primaryKey.javaType} id);
 
-    PageInfo<${ClassName}> list${ClassName}();
+    PageInfo<${ClassName}> list${ClassName}(Page page);
 }

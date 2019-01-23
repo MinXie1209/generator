@@ -51,9 +51,9 @@ public class ${ClassName}Controller {
     }
     @ApiOperation(value = "获取所有${ClassName}")
     @GetMapping(value = "/${className}")
-    public Object list${ClassName}() {
+    public Object list${ClassName}(Page page) {
         log.info("{}","list${ClassName}");
-        return ${className}Service.list${ClassName}();
+        return ${className}Service.list${ClassName}(page);
     }
 }
 

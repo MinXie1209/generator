@@ -235,7 +235,7 @@ public class GeneratorUtils {
      * 2.Service接口
      * 3.ServiceImpl实现类
      * 4.Mapper接口
-     *
+     * 5.Provider类
      * @return
      */
     private static List<String> getTemplates() {
@@ -253,7 +253,11 @@ public class GeneratorUtils {
 
     /**
      * 获取不与表有关的模板
-     *
+     * 1.application.yml
+     * 2.Application.java
+     * 3.pom.xml
+     * 4.banner.txt
+     * 5.common包
      * @return
      */
     private static List<String> getStaticTemplates() {
@@ -262,7 +266,7 @@ public class GeneratorUtils {
         templates.add(VelocityConf.POM_XML_VM);
         templates.add(VelocityConf.APPLICATION_VM);
         templates.add(VelocityConf.BANNER_VM);
-
+        templates.add(VelocityConf.PAGE_VM);
         return templates;
     }
 

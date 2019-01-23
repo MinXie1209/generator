@@ -43,6 +43,7 @@ template:
    Mapper.java.vm: ${JAVA_ROOT}.packageName.mapper.classNameMapper:java
    Provider.java.vm: ${JAVA_ROOT}.packageName.mapper.provider.classNameProvider:java
    PO.java.vm: ${JAVA_ROOT}.packageName.entity.className:java
+   Page.java.vm: ${JAVA_ROOT}.packageName.common.entity.Page:java
    Application.java.vm: ${JAVA_ROOT}.packageName.Application:java
    application.yml.vm: ${RESOUCRCES}.application:yml
    banner.txt.vm: ${RESOUCRCES}.banner:txt
