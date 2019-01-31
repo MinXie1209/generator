@@ -4,16 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.myjnxj.generator.bo.Generator;
+import top.myjnxj.generator.common.enums.ResultEnum;
+import top.myjnxj.generator.common.exception.ResultException;
 import top.myjnxj.generator.conf.GeneratorConf;
 import top.myjnxj.generator.conf.TemplateConf;
 import top.myjnxj.generator.entity.Table;
-
 import top.myjnxj.generator.entity.TableColumn;
 import top.myjnxj.generator.service.GeneratorService;
 import top.myjnxj.generator.util.DAOUtils;
 import top.myjnxj.generator.util.GeneratorUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,12 +39,16 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @param generator
      */
     @Override
-    public byte[] generator(Generator generator) throws IOException {
+    public byte[] generator(Generator generator) throws Exception{
 
         List<Table> tables=new ArrayList<>();
         synchronized (this){
             //TODO 连接数据库
-            DAOUtils.queryTableAndTableColumns(generator,tables);
+            try {
+                DAOUtils.queryTableAndTableColumns(generator,tables);
+            } catch (Exception e) {
+               throw new ResultException(ResultEnum.DATABASE_ERROR);
+            }
             templateConf.replace(generator.getPackageName());
            for (Table table:tables){
                GeneratorUtils.dataTypeToJavaType(table.getTableColumns(),generatorConf);

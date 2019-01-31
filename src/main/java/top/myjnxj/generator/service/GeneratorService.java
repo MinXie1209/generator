@@ -2,8 +2,6 @@ package top.myjnxj.generator.service;
 
 import top.myjnxj.generator.bo.Generator;
 
-import java.io.IOException;
-
 /**
  * @InterfaceName GeneratorService
  * @Description TODO
@@ -16,5 +14,5 @@ public interface GeneratorService {
      * 根据配置生成代码.zip
      * @param generator
      */
-    byte[] generator(Generator generator) throws IOException;
+    byte[] generator(Generator generator) throws Exception;
 }

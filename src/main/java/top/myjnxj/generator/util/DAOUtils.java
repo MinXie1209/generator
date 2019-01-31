@@ -3,6 +3,8 @@ package top.myjnxj.generator.util;
 
 import lombok.extern.slf4j.Slf4j;
 import top.myjnxj.generator.bo.Generator;
+import top.myjnxj.generator.common.enums.ResultEnum;
+import top.myjnxj.generator.common.exception.ResultException;
 import top.myjnxj.generator.entity.Table;
 import top.myjnxj.generator.entity.TableColumn;
 
@@ -17,16 +19,16 @@ public class DAOUtils {
     private static final String QUERY_TABLECOLUMN = "SELECT column_name columnName, data_type dataType, column_comment columnComment, column_key columnKey " +
             "FROM information_schema.columns WHERE table_name = ? AND table_schema = (SELECT DATABASE()) ORDER BY ordinal_position";
 
-    public static void queryTableAndTableColumns(Generator generator, List<Table> tables) {
+    public static void queryTableAndTableColumns(Generator generator, List<Table> tables) throws Exception {
         try {
             Class.forName(DRVIER_CLASS);
             Connection connection = DriverManager.getConnection(generator.getUrl(), generator.getUserName(), generator.getPassword());
             getTables(connection, tables, generator.getDataBase());
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw  new ResultException(ResultEnum.DATABASE_ERROR);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new ResultException(ResultEnum.DATABASE_ERROR);
         }
 
     }
